@@ -23,9 +23,12 @@ jobs:
       - name: Clone GraalVM repository
         run: git clone https://github.com/oracle/graal.git
 
+      - name: Change to Graal directory
+        run: cd graal
+
       - name: Build mx
         run: |
-          cd graal/tools/mx
+          cd tools/mx
           python mx.py build
 
       - name: Build GraalVM for aarch64
