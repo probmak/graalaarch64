@@ -3,7 +3,7 @@ name: Build GraalVM for aarch64
 on:
   push:
     branches:
-      - main # Adjust this to your main branch name
+      - master # Adjust this to your main branch name
 
 jobs:
   build:
