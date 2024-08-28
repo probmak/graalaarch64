@@ -1,0 +1,36 @@
+name: Build GraalVM for aarch64
+
+on:
+  push:
+    branches:
+      - main # Adjust this to your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y git maven g++ make openjdk-21-jdk
+
+      - name: Clone GraalVM repository
+        run: git clone https://github.com/oracle/graal.git
+
+      - name: Build GraalVM for aarch64
+        run: |
+          cd graal
+          export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+          mx --java-home $JAVA_HOME build --experimental-options --vm.architectures=aarch64
+
+      - name: Upload GraalVM artifact (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: graalvm-aarch64
+          path: graal/sdk/latest_graalvm_home
